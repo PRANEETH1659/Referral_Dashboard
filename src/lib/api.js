@@ -29,7 +29,9 @@ export async function loginUser(payload) {
   })
   const data = await parseJson(response)
   if (!response.ok) {
-    throw new Error(data.message || 'Login failed')
+    const error = new Error(data.message || 'Login failed')
+    error.status = response.status
+    throw error
   }
   return data
 }
@@ -47,7 +49,9 @@ export async function fetchReferrals(params = {}) {
   const data = await parseJson(response)
   if (!response.ok) {
     const message = data.message || 'Failed to fetch referrals'
-    throw new Error(`${message}${response.status ? ` (${response.status})` : ''}`)
+    const error = new Error(`${message}${response.status ? ` (${response.status})` : ''}`)
+    error.status = response.status
+    throw error
   }
   return data
 }

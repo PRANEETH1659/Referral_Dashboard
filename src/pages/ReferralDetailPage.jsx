@@ -23,7 +23,11 @@ export default function ReferralDetailPage() {
         }
       } catch (err) {
         if (active) {
-          setError(err.message)
+          if (err.status === 404) {
+            setReferral(null)
+          } else {
+            setError(err.message)
+          }
         }
       } finally {
         if (active) {
